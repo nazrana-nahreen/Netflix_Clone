@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix - Sign In</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .signin-bg {
+            background-image: url('https://www.the-sun.com/wp-content/uploads/sites/6/2023/01/netflix-bignewlogonew-op.jpg?quality=80&strip=all&w=1920&h=1080&crop=1');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .signin-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background-color: #e50914;
+            color: white;
+        }
+
+        footer {
+            position: relative;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px 50px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .footer-content p {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .developer {
+            color: #e50914;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="signin-bg">
+        <div class="content-wrapper">
+            <!-- Navigation -->
+            <nav class="px-4 md:px-12 py-6">
+                <a href="index.html" class="text-red-600 text-3xl md:text-4xl font-bold">NETFLIX</a>
+            </nav>
+
+            <!-- Sign In Form -->
+            <div class="flex items-center justify-center px-4 py-12">
+                <div class="bg-black/75 p-8 md:p-16 rounded-lg w-full max-w-md">
+                    <h1 class="text-white text-3xl font-bold mb-8">Sign In</h1>
+                    
+                    <!-- Tab Buttons -->
+                    <div class="flex gap-2 mb-6">
+                        <button 
+                            id="userTab" 
+                            class="tab-button active flex-1 py-2 rounded font-semibold"
+                            onclick="switchTab('user')"
+                        >
+                            Sign in as User
+                        </button>
+                        <button 
+                            id="adminTab" 
+                            class="tab-button flex-1 py-2 rounded font-semibold bg-gray-700 text-gray-300"
+                            onclick="switchTab('admin')"
+                        >
+                            Sign in as Admin
+                        </button>
+                    </div>
+
+                    <!-- User Sign In Form -->
+                    <form id="userForm" onsubmit="handleUserSignIn(event)">
+                        <div class="mb-4">
+                            <input 
+                                type="text" 
+                                id="userEmail"
+                                placeholder="Email or mobile number" 
+                                class="w-full px-4 py-4 bg-gray-700 text-white rounded border-0 focus:outline-none focus:ring-2 focus:ring-red-600"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="mb-4">
+                            <input 
+                                type="password" 
+                                id="userPassword"
+                                placeholder="Password" 
+                                class="w-full px-4 py-4 bg-gray-700 text-white rounded border-0 focus:outline-none focus:ring-2 focus:ring-red-600"
+                                required
+                            >
+                        </div>
+                        
+                        <button 
+                            type="submit"
+                            class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded font-semibold text-lg mb-4"
+                        >
+                            Sign In
+                        </button>
+                        
+                        <div class="text-center mb-4">
+                            <span class="text-gray-400">OR</span>
+                        </div>
+                        
+                        <button 
+                            type="button"
+                            class="w-full bg-gray-700 hover:bg-gray-600 text-white py-4 rounded mb-4"
+                        >
+                            Use a Sign-In Code
+                        </button>
+                        
+                        <div class="text-center mb-4">
+                            <a href="#" class="text-white hover:underline">Forgot password?</a>
+                        </div>
+                        
+                        <div class="flex items-center mb-6">
+                            <input 
+                                type="checkbox" 
+                                id="remember" 
+                                class="w-4 h-4 bg-gray-700 border-gray-600 rounded"
+                            >
+                            <label for="remember" class="ml-2 text-gray-400">Remember me</label>
+                        </div>
+                        
+                        <div class="text-gray-400">
+                            New to Netflix? 
+                            <a href="signup.html" class="text-white hover:underline font-semibold">Sign up now</a>.
+                        </div>
+                        
+                        <div class="mt-4 text-sm text-gray-500">
+                            This page is protected by Google reCAPTCHA to ensure you're not a bot. 
+                            <a href="#" class="text-blue-500 hover:underline">Learn more</a>.
+                        </div>
+                    </form>
+
+                    <!-- Admin Sign In Form (Hidden by default) -->
+                    <form id="adminForm" class="hidden" onsubmit="handleAdminSignIn(event)">
+                        <div class="mb-4">
+                            <input 
+                                type="text" 
+                                id="adminEmail"
+                                placeholder="Admin Email" 
+                                class="w-full px-4 py-4 bg-gray-700 text-white rounded border-0 focus:outline-none focus:ring-2 focus:ring-red-600"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="mb-4">
+                            <input 
+                                type="password" 
+                                id="adminPassword"
+                                placeholder="Admin Password" 
+                                class="w-full px-4 py-4 bg-gray-700 text-white rounded border-0 focus:outline-none focus:ring-2 focus:ring-red-600"
+                                required
+                            >
+                        </div>
+                        
+                        <button 
+                            type="submit"
+                            class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded font-semibold text-lg mb-4"
+                        >
+                            Admin Sign In
+                        </button>
+                        
+                        <div class="flex items-center mb-6">
+                            <input 
+                                type="checkbox" 
+                                id="adminRemember" 
+                                class="w-4 h-4 bg-gray-700 border-gray-600 rounded"
+                            >
+                            <label for="adminRemember" class="ml-2 text-gray-400">Remember me</label>
+                        </div>
+                        
+                        <div class="text-sm text-gray-500">
+                            Admin access only. Unauthorized access is prohibited.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 Netflix Clone. All rights reserved. || For University Software Engineering and Development Course</p>
+            <p>Developed by <span class="developer">Nazrana Nahreen</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        function switchTab(tab) {
+            const userTab = document.getElementById('userTab');
+            const adminTab = document.getElementById('adminTab');
+            const userForm = document.getElementById('userForm');
+            const adminForm = document.getElementById('adminForm');
+            
+            if (tab === 'user') {
+                userTab.classList.add('active');
+                userTab.classList.remove('bg-gray-700', 'text-gray-300');
+                adminTab.classList.remove('active');
+                adminTab.classList.add('bg-gray-700', 'text-gray-300');
+                userForm.classList.remove('hidden');
+                adminForm.classList.add('hidden');
+            } else {
+                adminTab.classList.add('active');
+                adminTab.classList.remove('bg-gray-700', 'text-gray-300');
+                userTab.classList.remove('active');
+                userTab.classList.add('bg-gray-700', 'text-gray-300');
+                adminForm.classList.remove('hidden');
+                userForm.classList.add('hidden');
+            }
+        }
+
+        // Handle User Sign In
+        function handleUserSignIn(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('userEmail').value;
+            const password = document.getElementById('userPassword').value;
+            
+            // Get registered users (would normally come from a database)
+            const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            
+            // Find user
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (!user) {
+                alert('Invalid email or password. Please try again or sign up.');
+                return;
+            }
+            
+            // Check if user is approved
+            if (!user.approved) {
+                alert('Your account is pending admin approval. Please wait for approval before signing in.');
+                return;
+            }
+            
+            // Set current user session
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
+            alert('Sign in successful! Welcome back, ' + user.fullName + '!');
+            window.location.href = 'browse.html';
+        }
+
+        // Handle Admin Sign In
+        function handleAdminSignIn(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            // Default admin credentials (in real app, this would be secured in backend)
+            if (email === 'admin@netflix.com' && password === 'admin123') {
+                // Set admin session
+                localStorage.setItem('currentAdmin', JSON.stringify({ email, role: 'admin' }));
+                alert('Admin sign in successful!');
+                window.location.href = 'admin.html';
+            } else {
+                alert('Invalid admin credentials!');
+            }
+        }
+    </script>
+</body>
+</html>

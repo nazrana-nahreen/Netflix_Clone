@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Account Settings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Netflix Sans, Helvetica Neue, Segoe UI, Roboto, Arial, sans-serif;
+            background-color: #f3f3f3;
+            color: #000;
+        }
+
+        header {
+            background-color: #141414;
+            padding: 20px 50px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .netflix-logo {
+            color: #e50914;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: -2px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .alert-banner {
+            background-color: #ffeaa7;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-icon {
+            font-size: 24px;
+            color: #000;
+        }
+
+        .alert-content h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .alert-content p {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .alert-content a {
+            color: #0073e6;
+            text-decoration: underline;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .settings-box {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 25px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .setting-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .setting-icon {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .setting-text {
+            font-size: 16px;
+            color: #000;
+        }
+
+        .setting-arrow {
+            font-size: 20px;
+            color: #999;
+        }
+
+        .membership-btn {
+            width: 100%;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 30px 0;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .membership-btn:hover {
+            background-color: #333;
+        }
+
+        .delete-btn {
+            width: 100%;
+            background-color: #fff;
+            color: #e50914;
+            border: 1px solid #ccc;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #fafafa;
+            border-color: #e50914;
+        }
+
+        footer {
+            max-width: 1000px;
+            margin: 60px auto 40px;
+            padding: 0 20px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: #737373;
+            margin-bottom: 20px;
+        }
+
+        .footer-text a {
+            color: #737373;
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .footer-links a {
+            color: #737373;
+            font-size: 13px;
+            text-decoration: underline;
+        }
+
+        .footer-links a:hover {
+            text-decoration: none;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 4px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-content h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .modal-btn-primary {
+            background-color: #e50914;
+            color: #fff;
+        }
+
+        .modal-btn-secondary {
+            background-color: #f3f3f3;
+            color: #000;
+        }
+
+        .modal-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .footer-links {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="netflix-logo">NETFLIX</div>
+    </header>
+
+    <div class="container">
+        <div class="alert-banner">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-content">
+                <h3>Finish signing up to watch</h3>
+                <p>Unlimited entertainment, cancel at any time. <a href="#" id="startMembershipLink">Start membership</a></p>
+            </div>
+        </div>
+
+        <h1>Account</h1>
+
+        <div class="settings-box">
+            <div class="setting-item" onclick="openModal('password')">
+                <div class="setting-left">
+                    <span class="setting-icon">🔒</span>
+                    <span class="setting-text">Update password</span>
+                </div>
+                <span class="setting-arrow">›</span>
+            </div>
+
+            <div class="setting-item" onclick="openModal('email')">
+                <div class="setting-left">
+                    <span class="setting-icon">✉️</span>
+                    <span class="setting-text">Manage email</span>
+                </div>
+                <span class="setting-arrow">›</span>
+            </div>
+
+            <div class="setting-item" onclick="openModal('personalInfo')">
+                <div class="setting-left">
+                    <span class="setting-icon">⬇️</span>
+                    <span class="setting-text">Request personal info</span>
+                </div>
+                <span class="setting-arrow">›</span>
+            </div>
+
+            <div class="setting-item" onclick="openModal('notifications')">
+                <div class="setting-left">
+                    <span class="setting-icon">🔔</span>
+                    <span class="setting-text">Notification settings</span>
+                </div>
+                <span class="setting-arrow">›</span>
+            </div>
+
+            <div class="setting-item" onclick="openModal('privacy')">
+                <div class="setting-left">
+                    <span class="setting-icon">🛡️</span>
+                    <span class="setting-text">Manage privacy</span>
+                </div>
+                <span class="setting-arrow">›</span>
+            </div>
+        </div>
+
+        <button class="membership-btn" onclick="openModal('membership')">Start Membership</button>
+
+        <button class="delete-btn" onclick="openModal('delete')">Delete Account</button>
+    </div>
+
+    <footer>
+        <p class="footer-text">Questions? <a href="#">Contact us</a></p>
+        <div class="footer-links">
+            <a href="#">Investor Relations</a>
+            <a href="#">Media Centre</a>
+            <a href="#">Jobs</a>
+            <a href="#">Cookie Preferences</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Privacy Statement</a>
+            <a href="#">Audio and Subtitles</a>
+            <a href="#">Help Centre</a>
+            <a href="#">Gift Cards</a>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Title</h2>
+            <p id="modalText">Content</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="confirmAction()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modalData = {
+            password: {
+                title: 'Update Password',
+                text: 'You will be redirected to a secure page where you can update your password. This helps keep your account safe.'
+            },
+            email: {
+                title: 'Manage Email',
+                text: 'Update your email address or manage your email preferences. You will need to verify any new email address.'
+            },
+            personalInfo: {
+                title: 'Request Personal Info',
+                text: 'Request a copy of your personal information that Netflix has collected. This process may take up to 30 days to complete.'
+            },
+            notifications: {
+                title: 'Notification Settings',
+                text: 'Manage how and when you receive notifications from Netflix. You can customize email, SMS, and push notification preferences.'
+            },
+            privacy: {
+                title: 'Manage Privacy',
+                text: 'Control your privacy settings including viewing activity, test participation, and data sharing preferences.'
+            },
+            membership: {
+                title: 'Start Membership',
+                text: 'Choose a plan to start watching unlimited movies and TV shows. You can cancel anytime with no additional fees.'
+            },
+            delete: {
+                title: 'Delete Account',
+                text: 'Warning: This action cannot be undone. Your account and all associated data will be permanently deleted within 10 months.'
+            }
+        };
+
+        function openModal(type) {
+            const modal = document.getElementById('modal');
+            const data = modalData[type];
+            
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalText').textContent = data.text;
+            
+            modal.dataset.type = type;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+        }
+
+        function confirmAction() {
+            const modal = document.getElementById('modal');
+            const type = modal.dataset.type;
+            
+            alert(`Action confirmed: ${modalData[type].title}`);
+            closeModal();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Start membership link in banner
+        document.getElementById('startMembershipLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal('membership');
+        });
+    </script>
+</body>
+</html>
