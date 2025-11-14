@@ -35,9 +35,5 @@ This project includes user authentication, dynamic movie loading, and a Netflix-
 - Firebase Authentication  
 - Firebase Firestore Database  
 - Firebase Hosting  
-- Firebase Storage (optional)
-
----
-
-## 📂 Project Structure
+- Firebase Storage 
 
